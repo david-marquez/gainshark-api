@@ -18,6 +18,8 @@ namespace gainshark_api.MySqlEngine.Implementation
 		{
 			using(MySqlConnection connection = new MySqlConnection(_connectionString))
 			{
+				connection.Open();
+
 				using(MySqlCommand command = new MySqlCommand(query, connection))
 				{
 					command.Connection.ChangeDatabase(_targetDb);
@@ -39,6 +41,8 @@ namespace gainshark_api.MySqlEngine.Implementation
 		{
 			using(MySqlConnection connection = new MySqlConnection(_connectionString))
 			{
+				connection.Open();
+
 				using(MySqlCommand command = new MySqlCommand(query, connection))
 				{
 					command.Connection.ChangeDatabase(_targetDb);
@@ -62,6 +66,8 @@ namespace gainshark_api.MySqlEngine.Implementation
 
 			using(MySqlConnection connection = new MySqlConnection(_connectionString))
 			{
+				connection.Open();
+
 				using(MySqlCommand command = new MySqlCommand(query, connection))
 				{
 					command.Connection.ChangeDatabase(_targetDb);
@@ -93,6 +99,8 @@ namespace gainshark_api.MySqlEngine.Implementation
 
 			using(MySqlConnection connection = new MySqlConnection(_connectionString))
 			{
+				connection.Open();
+
 				using(MySqlCommand command = new MySqlCommand(query, connection))
 				{
 					command.Connection.ChangeDatabase(_targetDb);
@@ -122,6 +130,8 @@ namespace gainshark_api.MySqlEngine.Implementation
 		{
 			using(MySqlConnection connection = new MySqlConnection(_connectionString))
 			{
+				connection.Open();
+
 				using(MySqlCommand command = new MySqlCommand(query, connection))
 				{
 					command.Connection.ChangeDatabase(_targetDb);
