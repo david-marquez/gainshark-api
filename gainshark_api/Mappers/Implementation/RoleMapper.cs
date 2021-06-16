@@ -14,7 +14,7 @@ namespace gainshark_api.Mappers.Implementation
 		{
 			Role role = new Role();
 
-			role.Id = (int)dataReader[0];
+			role.Id = Convert.ToInt32(dataReader[0]);
 			role.Name = dataReader[1] as string ?? null;
 			role.Description = dataReader[2] as string ?? null;
 

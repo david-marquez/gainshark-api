@@ -12,7 +12,7 @@ namespace gainshark_api.MySqlEngine.Implementation
 	public class MySqlEngine<T> : IMySqlEngine<T> where T : class
 	{
 		private string _connectionString = ConfigurationManager.ConnectionStrings["MySql"].ConnectionString;
-		private string _targetDb = "gainshark";
+		private string _targetDb = "gainsharksandbox";
 
 		public void AddItem(string query, IList<MySqlParameter> mySqlParameters)
 		{

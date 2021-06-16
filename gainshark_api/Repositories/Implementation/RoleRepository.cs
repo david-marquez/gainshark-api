@@ -21,17 +21,26 @@ namespace gainshark_api.Repositories.Implementation
 
 		public void AddItem(Role role)
 		{
-			string sql = @"";
+			string sql = @"	INSERT INTO tbl_roles
+							(	Role_Name, 
+								Role_Description
+							)
+							VALUES(
+								@Name,
+								@Description
+							)
+							ON DUPLICATE KEY UPDATE
+								Role_Id = Role_Id;";
 
 			var engine = _mySqlProvider.GetEngine();
-			engine.SetDb("gainsharksandbox");
 
-			engine.AddItem(sql, GetMySqlParameters(role));
+			engine.AddItem(sql, RoleParameters(role));
 		}
 
 		public void DeleteItem(int id)
 		{
-			string sql = @"";
+			string sql = @"	DELETE FROM tbl_roles
+							WHERE Role_Id = @Id;";
 
 			List<MySqlParameter> mySqlParameters = new List<MySqlParameter>()
 			{
@@ -39,7 +48,6 @@ namespace gainshark_api.Repositories.Implementation
 			};
 
 			var engine = _mySqlProvider.GetEngine();
-			engine.SetDb("gainsharksandbox");
 
 			engine.DeleteItem(sql, mySqlParameters);
 		}
@@ -60,7 +68,6 @@ namespace gainshark_api.Repositories.Implementation
 			};
 
 			var engine = _mySqlProvider.GetEngine();
-			engine.SetDb("gainsharksandbox");
 
 			return engine.GetItem(sql, mySqlParameters, new RoleMapper());
 		}
@@ -74,22 +81,30 @@ namespace gainshark_api.Repositories.Implementation
 							FROM 	tbl_roles;";
 
 			var engine = _mySqlProvider.GetEngine();
-			engine.SetDb("gainsharksandbox");
 
 			return engine.GetItems(sql, null, new RoleMapper());
 		}
 
 		public void UpdateItem(Role role)
 		{
-			string sql = @"";
+			string sql = @"	INSERT INTO tbl_roles
+							(	Role_Name, 
+								Role_Description
+							)
+							VALUES(
+								@Name,
+								@Description
+							)
+							ON DUPLICATE KEY UPDATE
+								Role_Name = @Name,
+								Role_Description = @Description;";
 
 			var engine = _mySqlProvider.GetEngine();
-			engine.SetDb("gainsharksandbox");
 
-			engine.UpdateItem(sql, GetMySqlParameters(role));
+			engine.UpdateItem(sql, RoleParameters(role));
 		}
 
-		private IList<MySqlParameter> GetMySqlParameters(Role role)
+		private IList<MySqlParameter> RoleParameters(Role role)
 		{
 			List<MySqlParameter> mySqlParameters = new List<MySqlParameter>()
 			{
