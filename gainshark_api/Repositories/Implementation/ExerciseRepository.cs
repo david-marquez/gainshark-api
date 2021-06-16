@@ -24,7 +24,43 @@ namespace gainshark_api.Repositories.Implementation
 
 		public void AddItem(Exercise exercise)
 		{
-			throw new NotImplementedException();
+			string exerciseSql = @"	INSERT INTO tbl_exercises
+									(	Exercise_Name, 
+										Exercise_Description, 
+										Exercise_Image
+									)
+									VALUES(
+										@Exercise_Name,
+										@Exercise_Description,
+										@Exercise_Image
+									)
+									ON DUPLICATE KEY UPDATE
+										Exercise_Id = Exercise_Id;";
+
+			string muscleGroupSql = @"	INSERT INTO rltn_exercise_musclegroup
+										(	Exercise_Id,
+											MuscleGroup_Id
+										)
+										VALUES(
+											(	SELECT	Exercise_Id
+												FROM	tbl_Exercises
+												WHERE	Exercise_Name = @Exercise_Name),
+											@MuscleGroup_Id
+										);";
+
+			var exerciseEngine = _exerciseMySqlProvider.GetEngine();
+			var muscleGroupEngine = _muscleGroupMySqlProvider.GetEngine();
+
+			List<MySqlParameter> exerciseParameters = (List<MySqlParameter>)ExerciseParameters(exercise);
+			exerciseEngine.AddItem(exerciseSql, exerciseParameters);
+
+			foreach(MuscleGroup muscleGroup in exercise.MuscleGroups)
+			{
+				List<MySqlParameter> muscleGroupParameters = (List<MySqlParameter>)MuscleGroupParameters(muscleGroup);
+				muscleGroupParameters.Add(new MySqlParameter("@Exercise_Name", exercise.Name));
+
+				muscleGroupEngine.AddItem(muscleGroupSql, muscleGroupParameters);
+			}
 		}
 
 		public void DeleteItem(int id)
@@ -121,7 +157,10 @@ namespace gainshark_api.Repositories.Implementation
 		{
 			List<MySqlParameter> mySqlParameters = new List<MySqlParameter>()
 			{
-
+				new MySqlParameter("@Exercise_Id", exercise.Id),
+				new MySqlParameter("@Exercise_Name", exercise.Name),
+				new MySqlParameter("@Exercise_Description", exercise.Description),
+				new MySqlParameter("@Exercise_Image", exercise.Image)
 			};
 
 			return mySqlParameters;
@@ -131,7 +170,10 @@ namespace gainshark_api.Repositories.Implementation
 		{
 			List<MySqlParameter> mySqlParameters = new List<MySqlParameter>()
 			{
-
+				new MySqlParameter("@MuscleGroup_Id", muscleGroup.Id),
+				new MySqlParameter("@MuscleGroup_Name", muscleGroup.Name),
+				new MySqlParameter("@MuscleGroup_Description", muscleGroup.Description),
+				new MySqlParameter("@MuscleGroup_Image", muscleGroup.Image)
 			};
 
 			return mySqlParameters;

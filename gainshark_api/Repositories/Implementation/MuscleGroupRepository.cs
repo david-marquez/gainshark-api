@@ -42,6 +42,10 @@ namespace gainshark_api.Repositories.Implementation
 		public void DeleteItem(int id)
 		{
 			string sql = @"	DELETE FROM tbl_musclegroups
+							WHERE MuscleGroup_Id = @Id;
+
+							UPDATE rltn_exercise_musclegroup
+							SET MuscleGroup_Id = null
 							WHERE MuscleGroup_Id = @Id;";
 
 			List<MySqlParameter> mySqlParameters = new List<MySqlParameter>()
