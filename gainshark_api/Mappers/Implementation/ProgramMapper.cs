@@ -15,8 +15,9 @@ namespace gainshark_api.Mappers.Implementation
 			Program program = new Program();
 
 			program.Id = Convert.ToInt32(dataReader[0]);
-			program.Name = dataReader[1] as string ?? null;
-			program.Description = dataReader[2] as string ?? null;
+			program.UserId = Convert.ToInt32(dataReader[1]);
+			program.Name = dataReader[2] as string ?? null;
+			program.Description = dataReader[3] as string ?? null;
 
 			return program;
 		}

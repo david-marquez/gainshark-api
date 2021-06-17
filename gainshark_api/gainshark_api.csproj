@@ -237,7 +237,9 @@
     <Compile Include="Controllers\ExercisesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MuscleGroupsController.cs" />
+    <Compile Include="Controllers\ProgramsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DataAccess\Contract\IDataAccess.cs" />
     <Compile Include="DataAccess\Implementation\DataAccess.cs" />
@@ -263,7 +265,9 @@
     <Compile Include="Repositories\Contract\IRepository.cs" />
     <Compile Include="Repositories\Implementation\ExerciseRepository.cs" />
     <Compile Include="Repositories\Implementation\MuscleGroupRepository.cs" />
+    <Compile Include="Repositories\Implementation\ProgramRepository.cs" />
     <Compile Include="Repositories\Implementation\RoleRepository.cs" />
+    <Compile Include="Repositories\Implementation\UserRepository.cs" />
     <Compile Include="Unity\TypeRegister.cs" />
     <Compile Include="Unity\UnityResolver.cs" />
   </ItemGroup>

@@ -32,6 +32,10 @@ namespace gainshark_api.Unity
 				MuscleGroupMapper>();
 			container.RegisterType<IMapper<Exercise>,
 				ExerciseMapper>();
+			container.RegisterType<IMapper<Program>,
+				ProgramMapper>();
+			container.RegisterType<IMapper<User>,
+				UserMapper>();
 
 			// MySqlProvider registration
 			container.RegisterType<IMySqlProvider<Role>, 
@@ -40,6 +44,10 @@ namespace gainshark_api.Unity
 				MySqlProvider.Implementation.MySqlProvider<MuscleGroup>>();
 			container.RegisterType<IMySqlProvider<Exercise>,
 				MySqlProvider.Implementation.MySqlProvider<Exercise>>();
+			container.RegisterType<IMySqlProvider<Program>,
+				MySqlProvider.Implementation.MySqlProvider<Program>>();
+			container.RegisterType <IMySqlProvider<User>,
+				MySqlProvider.Implementation.MySqlProvider<User>>();
 
 			// Repository registration
 			container.RegisterType<IRepository<Role>,
@@ -48,6 +56,10 @@ namespace gainshark_api.Unity
 				MuscleGroupRepository>();
 			container.RegisterType<IRepository<Exercise>,
 				ExerciseRepository>();
+			container.RegisterType<IRepository<Program>,
+				ProgramRepository>();
+			container.RegisterType<IRepository<User>,
+				UserRepository>();
 
 			// Data access registration
 			container.RegisterType<IDataAccess<Role>,
@@ -56,6 +68,10 @@ namespace gainshark_api.Unity
 				DataAccess.Implementation.DataAccess<MuscleGroup>>();
 			container.RegisterType<IDataAccess<Exercise>,
 				DataAccess.Implementation.DataAccess<Exercise>>();
+			container.RegisterType<IDataAccess<Program>,
+				DataAccess.Implementation.DataAccess<Program>>();
+			container.RegisterType<IDataAccess<User>,
+				DataAccess.Implementation.DataAccess<User>>();
 		}
 	}
 }
