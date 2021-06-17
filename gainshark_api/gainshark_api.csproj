@@ -247,6 +247,7 @@
     <Compile Include="Mappers\Contract\IMapper.cs" />
     <Compile Include="Mappers\Implementation\ExerciseMapper.cs" />
     <Compile Include="Mappers\Implementation\MuscleGroupMapper.cs" />
+    <Compile Include="Mappers\Implementation\ProgramMapper.cs" />
     <Compile Include="Mappers\Implementation\RoleMapper.cs" />
     <Compile Include="Mappers\Implementation\UserMapper.cs" />
     <Compile Include="Models\Exercise.cs" />

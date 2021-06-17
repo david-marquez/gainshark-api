@@ -37,13 +37,21 @@ namespace gainshark_api.Repositories.Implementation
 									ON DUPLICATE KEY UPDATE
 										Exercise_Id = Exercise_Id;";
 
-			string muscleGroupSql = @"	INSERT INTO rltn_exercise_musclegroup
+			string muscleGroupSql = @"	/* Delete existing exercise-musclegroup relationships */
+										
+										DELETE	FROM rltn_exercise_musclegroup
+										WHERE	MuscleGroup_Id = @MuscleGroup_Id
+										AND		Exercise_Id = (	SELECT	Exercise_Id
+																FROM	tbl_exercises
+																WHERE	Exercise_Name = @Exercise_Name);
+
+										INSERT INTO rltn_exercise_musclegroup
 										(	Exercise_Id,
 											MuscleGroup_Id
 										)
 										VALUES(
 											(	SELECT	Exercise_Id
-												FROM	tbl_Exercises
+												FROM	tbl_exercises
 												WHERE	Exercise_Name = @Exercise_Name),
 											@MuscleGroup_Id
 										);";
@@ -65,7 +73,24 @@ namespace gainshark_api.Repositories.Implementation
 
 		public void DeleteItem(int id)
 		{
-			throw new NotImplementedException();
+			string sql = @"	/* Delete exercise-musclegroup relationships */
+
+							DELETE	FROM rltn_exercise_musclegroup
+							WHERE	Exercise_Id = @Id;
+
+							/* Delete exercise */
+
+							DELETE	FROM tbl_exercises
+							WHERE	Exercise_Id = @Id;";
+
+			List<MySqlParameter> mySqlParameters = new List<MySqlParameter>()
+			{
+				new MySqlParameter("@Id", id)
+			};
+
+			var engine = _exerciseMySqlProvider.GetEngine();
+
+			engine.DeleteItem(sql, mySqlParameters);
 		}
 
 		public Exercise GetItem(int id)
@@ -74,6 +99,7 @@ namespace gainshark_api.Repositories.Implementation
 											exercise.Exercise_Name,
 											exercise.Exercise_Description,
 											exercise.Exercise_Image,
+											0 as Position,
 											0 as Reps,
 											0 as Sets,
 											0 as Duration,
@@ -113,6 +139,7 @@ namespace gainshark_api.Repositories.Implementation
 											exercise.Exercise_Name,
 											exercise.Exercise_Description,
 											exercise.Exercise_Image,
+											0 as Position,
 											0 as Reps,
 											0 as Sets,
 											0 as Duration,
@@ -150,7 +177,52 @@ namespace gainshark_api.Repositories.Implementation
 
 		public void UpdateItem(Exercise exercise)
 		{
-			throw new NotImplementedException();
+			string exerciseSql = @"	INSERT INTO tbl_exercises
+									(	Exercise_Name, 
+										Exercise_Description, 
+										Exercise_Image
+									)
+									VALUES(
+										@Exercise_Name,
+										@Exercise_Description,
+										@Exercise_Image
+									)
+									ON DUPLICATE KEY UPDATE
+										Exercise_Description = @Exercise_Description,
+										Exercise_Image = @Exercise_Image;";
+
+			string muscleGroupSql = @"	/* Delete existing exercise-musclegroup relationships */
+										
+										DELETE	FROM rltn_exercise_musclegroup
+										WHERE	MuscleGroup_Id = @MuscleGroup_Id
+										AND		Exercise_Id = (	SELECT	Exercise_Id
+																FROM	tbl_exercises
+																WHERE	Exercise_Name = @Exercise_Name);
+
+										INSERT INTO rltn_exercise_musclegroup
+										(	Exercise_Id,
+											MuscleGroup_Id
+										)
+										VALUES(
+											(	SELECT	Exercise_Id
+												FROM	tbl_exercises
+												WHERE	Exercise_Name = @Exercise_Name),
+											@MuscleGroup_Id
+										);";
+
+			var exerciseEngine = _exerciseMySqlProvider.GetEngine();
+			var muscleGroupEngine = _muscleGroupMySqlProvider.GetEngine();
+
+			List<MySqlParameter> exerciseParameters = (List<MySqlParameter>)ExerciseParameters(exercise);
+			exerciseEngine.UpdateItem(exerciseSql, exerciseParameters);
+
+			foreach (MuscleGroup muscleGroup in exercise.MuscleGroups)
+			{
+				List<MySqlParameter> muscleGroupParameters = (List<MySqlParameter>)MuscleGroupParameters(muscleGroup);
+				muscleGroupParameters.Add(new MySqlParameter("@Exercise_Name", exercise.Name));
+
+				muscleGroupEngine.UpdateItem(muscleGroupSql, muscleGroupParameters);
+			}
 		}
 
 		private IList<MySqlParameter> ExerciseParameters(Exercise exercise)

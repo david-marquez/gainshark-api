@@ -18,10 +18,11 @@ namespace gainshark_api.Mappers.Implementation
 			exercise.Name = dataReader[1] as string ?? null;
 			exercise.Description = dataReader[2] as string ?? null;
 			exercise.Image = dataReader.IsDBNull(3) ? null : (byte[])dataReader[3];
-			exercise.Reps = Convert.ToInt32(dataReader[4]);
-			exercise.Sets = Convert.ToInt32(dataReader[5]);
-			exercise.Duration = Convert.ToInt32(dataReader[6]);
-			exercise.Weight = Convert.ToInt32(dataReader[7]);
+			exercise.Position = Convert.ToInt32(dataReader[4]);
+			exercise.Reps = Convert.ToInt32(dataReader[5]);
+			exercise.Sets = Convert.ToInt32(dataReader[6]);
+			exercise.Duration = Convert.ToInt32(dataReader[7]);
+			exercise.Weight = Convert.ToInt32(dataReader[8]);
 
 			return exercise;
 		}
