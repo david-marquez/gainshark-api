@@ -111,16 +111,18 @@ namespace gainshark_api.Repositories.Implementation
 											exercise.Exercise_Name,
 											exercise.Exercise_Description,
 											exercise.Exercise_Image,
-											0 as Position,
-											0 as Reps,
-											0 as Sets,
-											0 as Duration,
-											0 as Weight
+											rltn.Position,
+											rltn.Reps,
+											rltn.Sets,
+											rltn.Duration,
+											rltn.Weight
 									
 									FROM	tbl_exercises exercise, rltn_program_exercise rltn
 
 									WHERE	rltn.Exercise_Id = exercise.Exercise_Id
-									AND		rltn.Program_Id = @Program_Id;";
+									AND		rltn.Program_Id = @Program_Id
+
+									ORDER	BY rltn.Position;";
 
 			string muscleGroupSql = @"	SELECT	muscleGroup.MuscleGroup_Id,
 												muscleGroup.MuscleGroup_Name,

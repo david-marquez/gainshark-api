@@ -13,6 +13,7 @@ namespace gainshark_api.Mappers.Implementation
 		public User Map(MySqlDataReader dataReader)
 		{
 			User user = new User();
+			user.Role = new Role();
 
 			user.Id = Convert.ToInt32(dataReader[0]);
 			user.FirstName = dataReader[1] as string ?? null;
@@ -21,7 +22,7 @@ namespace gainshark_api.Mappers.Implementation
 			user.Email = dataReader[4] as string ?? null;
 			user.Password = dataReader[5] as string ?? null;
 
-			user.Role.Id = Convert.ToInt32(dataReader[6]);
+			user.Role.Id = dataReader.IsDBNull(6) ? 0 : Convert.ToInt32(dataReader[6]);
 			user.Role.Name = dataReader[7] as string ?? null;
 			user.Role.Description = dataReader[8] as string ?? null;
 
