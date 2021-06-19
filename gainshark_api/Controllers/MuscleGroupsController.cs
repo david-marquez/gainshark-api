@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace gainshark_api.Controllers
 {
-	[RoutePrefix("musclegroups")]
+	[RoutePrefix("api/musclegroups")]
     public class MuscleGroupsController : ApiController
     {
 		private IDataAccess<MuscleGroup> _dataAccess;

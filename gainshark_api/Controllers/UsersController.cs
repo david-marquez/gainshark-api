@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace gainshark_api.Controllers
 {
-	[RoutePrefix("users")]
+	[RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
 		private IDataAccess<User> _dataAccess;
