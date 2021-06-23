@@ -1,4 +1,5 @@
-﻿using gainshark_api.DataAccess.Contract;
+﻿using gainshark_api.Authentication.Attribute;
+using gainshark_api.DataAccess.Contract;
 using gainshark_api.Models;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace gainshark_api.Controllers
 			}
 		}
 
+		[BasicAuthentication]
 		[HttpPost]
 		[Route("delete/{id}")]
 		public HttpResponseMessage DeleteUser(int id)
@@ -53,6 +55,7 @@ namespace gainshark_api.Controllers
 			}
 		}
 
+		[BasicAuthentication]
 		[HttpGet]
 		[Route("{id}")]
 		public User GetUser(int id)
@@ -60,6 +63,7 @@ namespace gainshark_api.Controllers
 			return _dataAccess.GetItem(id);
 		}
 
+		[BasicAuthentication]
 		[HttpGet]
 		[Route("")]
 		public IList<User> GetUsers()

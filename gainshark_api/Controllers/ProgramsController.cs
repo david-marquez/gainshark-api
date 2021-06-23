@@ -1,4 +1,6 @@
-﻿using gainshark_api.DataAccess.Contract;
+﻿using gainshark_api.Authentication.Attribute;
+using gainshark_api.Authentication.Implementation;
+using gainshark_api.DataAccess.Contract;
 using gainshark_api.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.Web.Http;
 
 namespace gainshark_api.Controllers
 {
+	[BasicAuthentication]
 	[RoutePrefix("api/programs")]
     public class ProgramsController : ApiController
     {
@@ -59,7 +62,7 @@ namespace gainshark_api.Controllers
 		{
 			return _dataAccess.GetItem(id);
 		}
-
+		
 		[HttpGet]
 		[Route("")]
 		public IList<Program> GetPrograms()

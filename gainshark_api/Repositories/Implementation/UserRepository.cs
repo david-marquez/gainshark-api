@@ -77,7 +77,7 @@ namespace gainshark_api.Repositories.Implementation
 										user.User_LastName,
 										user.User_UserName,
 										user.User_Email,
-										user.User_Password,
+										null as Password,
 										role.Role_Id,
 										role.Role_Name,
 										role.Role_Description
@@ -122,7 +122,7 @@ namespace gainshark_api.Repositories.Implementation
 										user.User_LastName,
 										user.User_UserName,
 										user.User_Email,
-										user.User_Password,
+										null as Password,
 										role.Role_Id,
 										role.Role_Name,
 										role.Role_Description

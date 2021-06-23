@@ -1,4 +1,5 @@
-﻿using gainshark_api.DataAccess.Contract;
+﻿using gainshark_api.Authentication.Attribute;
+using gainshark_api.DataAccess.Contract;
 using gainshark_api.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Web.Http;
 
 namespace gainshark_api.Controllers
 {
+	[BasicAuthentication]
 	[RoutePrefix("api/exercises")]
     public class ExercisesController : ApiController
     {

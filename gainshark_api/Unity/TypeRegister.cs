@@ -1,4 +1,6 @@
-﻿using gainshark_api.DataAccess.Contract;
+﻿using gainshark_api.Authentication.Contract;
+using gainshark_api.Authentication.Implementation;
+using gainshark_api.DataAccess.Contract;
 using gainshark_api.Mappers.Contract;
 using gainshark_api.Mappers.Implementation;
 using gainshark_api.Models;
@@ -72,6 +74,12 @@ namespace gainshark_api.Unity
 				DataAccess.Implementation.DataAccess<Program>>();
 			container.RegisterType<IDataAccess<User>,
 				DataAccess.Implementation.DataAccess<User>>();
+
+			// Authentication registration
+			container.RegisterType<IUserDBEntities,
+				UserDBEntities>();
+			container.RegisterType<IUserSecurity,
+				UserSecurity>();
 		}
 	}
 }

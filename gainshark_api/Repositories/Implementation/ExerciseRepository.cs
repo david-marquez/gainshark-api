@@ -117,11 +117,11 @@ namespace gainshark_api.Repositories.Implementation
 										FROM	tbl_musclegroups muscleGroup, rltn_exercise_musclegroup rltn
 
 										WHERE	rltn.MuscleGroup_Id = muscleGroup.MuscleGroup_Id
-										AND		rltn.Exercise_Id = @Exercse_Id;";
+										AND		rltn.Exercise_Id = @Exercise_Id;";
 
 			List<MySqlParameter> mySqlParameters = new List<MySqlParameter>()
 			{
-				new MySqlParameter("@Exercse_Id", id)
+				new MySqlParameter("@Exercise_Id", id)
 			};
 
 			var exerciseEngine = _exerciseMySqlProvider.GetEngine();
@@ -159,7 +159,7 @@ namespace gainshark_api.Repositories.Implementation
 										FROM	tbl_musclegroups muscleGroup, rltn_exercise_musclegroup rltn
 
 										WHERE	rltn.MuscleGroup_Id = muscleGroup.MuscleGroup_Id
-										AND		rltn.Exercise_Id = @Exercse_Id;";
+										AND		rltn.Exercise_Id = @Exercise_Id;";
 
 			var exerciseEngine = _exerciseMySqlProvider.GetEngine();
 			var muscleGroupEngine = _muscleGroupMySqlProvider.GetEngine();
@@ -172,7 +172,7 @@ namespace gainshark_api.Repositories.Implementation
 			{
 				List<MySqlParameter> mySqlParameters = new List<MySqlParameter>()
 				{
-					new MySqlParameter("@Exercse_Id", exercise.Id)
+					new MySqlParameter("@Exercise_Id", exercise.Id)
 				};
 
 				exercise.MuscleGroups = (List<MuscleGroup>)muscleGroupEngine.GetItems(muscleGroupSql, 
