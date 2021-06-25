@@ -1,4 +1,5 @@
-﻿using gainshark_api.Mappers.Implementation;
+﻿using gainshark_api.Encryption.Contract;
+using gainshark_api.Mappers.Implementation;
 using gainshark_api.Models;
 using gainshark_api.MySqlProvider.Contract;
 using gainshark_api.Repositories.Contract;
@@ -14,12 +15,15 @@ namespace gainshark_api.Repositories.Implementation
 	{
 		private IMySqlProvider<User> _userMySqlProvider;
 		private IMySqlProvider<Program> _programMySqlProvider;
+		private IBCryptEncryption _bCryptEncryption;
 
 		public UserRepository(IMySqlProvider<User> userMySqlProvider,
-			IMySqlProvider<Program> programMySqlProvider)
+			IMySqlProvider<Program> programMySqlProvider,
+			IBCryptEncryption bCryptEncryption)
 		{
 			_userMySqlProvider = userMySqlProvider;
 			_programMySqlProvider = programMySqlProvider;
+			_bCryptEncryption = bCryptEncryption;
 		}
 
 		public void AddItem(User user)
@@ -39,9 +43,7 @@ namespace gainshark_api.Repositories.Implementation
 								@User_Email,
 								@User_Password,
 								@User_RoleId
-							)
-							ON	DUPLICATE KEY UPDATE
-								User_Id = User_Id;";
+							);";
 
 			var engine = _userMySqlProvider.GetEngine();
 
@@ -202,7 +204,7 @@ namespace gainshark_api.Repositories.Implementation
 				new MySqlParameter("@User_UserName", user.UserName),
 				new MySqlParameter("@User_Email", user.Email),
 				new MySqlParameter("@User_RoleId", user.Role.Id),
-				new MySqlParameter("@User_Password", user.Password)
+				new MySqlParameter("@User_Password", _bCryptEncryption.Hash(user.Password))
 			};
 
 			return mySqlParameters;

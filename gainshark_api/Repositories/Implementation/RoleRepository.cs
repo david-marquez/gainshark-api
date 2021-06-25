@@ -28,9 +28,7 @@ namespace gainshark_api.Repositories.Implementation
 							VALUES(
 								@Name,
 								@Description
-							)
-							ON DUPLICATE KEY UPDATE
-								Role_Id = Role_Id;";
+							);";
 
 			var engine = _mySqlProvider.GetEngine();
 

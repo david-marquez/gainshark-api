@@ -33,9 +33,7 @@ namespace gainshark_api.Repositories.Implementation
 										@Exercise_Name,
 										@Exercise_Description,
 										@Exercise_Image
-									)
-									ON DUPLICATE KEY UPDATE
-										Exercise_Id = Exercise_Id;";
+									);";
 
 			string muscleGroupSql = @"	/* Delete existing exercise-musclegroup relationships */
 										

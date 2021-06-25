@@ -36,9 +36,7 @@ namespace gainshark_api.Repositories.Implementation
 										@User_Id,
 										@Program_Name,
 										@Program_Description
-									)
-									ON DUPLICATE KEY UPDATE
-										Program_Id = Program_Id;";
+									);";
 
 			string exerciseSql = @"	/* Delete existing program-exercise relationships */
 

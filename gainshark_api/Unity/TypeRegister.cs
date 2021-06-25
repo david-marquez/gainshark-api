@@ -1,6 +1,8 @@
 ﻿using gainshark_api.Authentication.Contract;
 using gainshark_api.Authentication.Implementation;
 using gainshark_api.DataAccess.Contract;
+using gainshark_api.Encryption.Contract;
+using gainshark_api.Encryption.Implementation;
 using gainshark_api.Mappers.Contract;
 using gainshark_api.Mappers.Implementation;
 using gainshark_api.Models;
@@ -80,6 +82,10 @@ namespace gainshark_api.Unity
 				UserDBEntities>();
 			container.RegisterType<IUserSecurity,
 				UserSecurity>();
+
+			// Encryption registration
+			container.RegisterType<IBCryptEncryption,
+				BCryptEncryption>();
 		}
 	}
 }

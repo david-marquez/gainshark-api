@@ -30,9 +30,7 @@ namespace gainshark_api.Repositories.Implementation
 								@Name,
 								@Description,
 								@Image
-							)
-							ON DUPLICATE KEY UPDATE
-								MuscleGroup_Id = MuscleGroup_Id;";
+							);";
 
 			var engine = _mySqlProvider.GetEngine();
 

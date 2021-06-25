@@ -1,4 +1,6 @@
 ﻿using gainshark_api.Authentication.Contract;
+using gainshark_api.Encryption.Contract;
+using gainshark_api.Encryption.Implementation;
 using gainshark_api.Models;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,7 @@ namespace gainshark_api.Authentication.Implementation
 	{
 		//private IUserDBEntities _userDBEntities;
 		private IUserDBEntities _userDBEntities = new UserDBEntities();
+		private IBCryptEncryption _bCryptEncryption = new BCryptEncryption();
 
 		/*public UserSecurity(IUserDBEntities userDBEntities)
 		{
@@ -23,7 +26,7 @@ namespace gainshark_api.Authentication.Implementation
 
 			return users.Any(user => 
 				user.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
-				user.Password == password);
+				_bCryptEncryption.Verify(password, user.Password));
 		}
 	}
 }
