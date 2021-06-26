@@ -24,16 +24,36 @@ namespace gainshark_api.Controllers
 		[Route("add")]
 		public HttpResponseMessage AddUser([FromBody]User user)
 		{
-			try
+			// Check for existing username
+			if(_dataAccess.GetItems().Any(foundUser => 
+				foundUser.UserName.Equals(user.UserName, 
+				StringComparison.OrdinalIgnoreCase)))
 			{
-				_dataAccess.AddItem(user);
-				HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, $"Added user {user.UserName}");
+				HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Conflict, "Username already exists");
 				return response;
 			}
-			catch(Exception e)
+			// Check for existing email
+			else if(_dataAccess.GetItems().Any(foundUser => 
+				foundUser.Email.Equals(user.Email, 
+				StringComparison.OrdinalIgnoreCase)))
 			{
-				HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.InternalServerError, $"Error {e.Message}");
+				HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Conflict, "Email already exists");
 				return response;
+			}
+			// Add the new user
+			else
+			{
+				try
+				{
+					_dataAccess.AddItem(user);
+					HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, $"Added user {user.UserName}");
+					return response;
+				}
+				catch (Exception e)
+				{
+					HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.InternalServerError, $"Error {e.Message}");
+					return response;
+				}
 			}
 		}
 
