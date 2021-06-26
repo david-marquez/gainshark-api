@@ -1,2 +1,2 @@
-# gainshark_api
+# gainshark-api
 .NET backend for the Gain Shark project
