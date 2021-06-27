@@ -77,10 +77,10 @@ namespace gainshark_api.Controllers
 
 		[BasicAuthentication]
 		[HttpGet]
-		[Route("{id}")]
-		public User GetUser(int id)
+		[Route("{userName}")]
+		public User GetUser(string userName)
 		{
-			return _dataAccess.GetItem(id);
+			return _dataAccess.GetItems().FirstOrDefault(user => user.UserName == userName);
 		}
 
 		[BasicAuthentication]
