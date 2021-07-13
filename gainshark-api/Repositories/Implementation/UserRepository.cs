@@ -7,6 +7,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace gainshark_api.Repositories.Implementation
@@ -196,6 +197,8 @@ namespace gainshark_api.Repositories.Implementation
 
 		private IList<MySqlParameter> UserParameters(User user)
 		{
+			string decodedPassword = Encoding.UTF8.GetString(Convert.FromBase64String(user.Password));
+
 			List<MySqlParameter> mySqlParameters = new List<MySqlParameter>()
 			{
 				new MySqlParameter("@User_Id", user.Id),
@@ -204,7 +207,7 @@ namespace gainshark_api.Repositories.Implementation
 				new MySqlParameter("@User_UserName", user.UserName),
 				new MySqlParameter("@User_Email", user.Email),
 				new MySqlParameter("@User_RoleId", user.Role.Id),
-				new MySqlParameter("@User_Password", _bCryptEncryption.Hash(user.Password))
+				new MySqlParameter("@User_Password", _bCryptEncryption.Hash(decodedPassword))
 			};
 
 			return mySqlParameters;

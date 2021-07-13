@@ -7,9 +7,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace gainshark_api.Controllers
 {
+	[EnableCors(origins: "*", headers: "*", methods: "*")]
 	[RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
@@ -74,8 +76,7 @@ namespace gainshark_api.Controllers
 				return response;
 			}
 		}
-
-		[BasicAuthentication]
+		
 		[HttpGet]
 		[Route("{userName}")]
 		public User GetUser(string userName)
@@ -89,6 +90,14 @@ namespace gainshark_api.Controllers
 		public IList<User> GetUsers()
 		{
 			return _dataAccess.GetItems();
+		}
+
+		[BasicAuthentication]
+		[HttpGet]
+		[Route("login/{userName}")]
+		public User LoginUser(string userName)
+		{
+			return _dataAccess.GetItems().FirstOrDefault(user => user.UserName == userName);
 		}
 
 		[HttpPost]

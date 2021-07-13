@@ -8,10 +8,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace gainshark_api.Controllers
 {
-	[BasicAuthentication]
+	[EnableCors(origins: "*", headers: "*", methods: "*")]
+	//[BasicAuthentication]
 	[RoutePrefix("api/programs")]
     public class ProgramsController : ApiController
     {
