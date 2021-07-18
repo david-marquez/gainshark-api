@@ -1,4 +1,4 @@
-﻿using gainshark_api.Authentication.Contract;
+﻿using gainshark_api.PasswordAuthentication.Contract;
 using gainshark_api.Encryption.Contract;
 using gainshark_api.Encryption.Implementation;
 using gainshark_api.Models;
@@ -7,18 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace gainshark_api.Authentication.Implementation
+namespace gainshark_api.PasswordAuthentication.Implementation
 {
 	public class UserSecurity : IUserSecurity
 	{
-		//private IUserDBEntities _userDBEntities;
 		private IUserDBEntities _userDBEntities = new UserDBEntities();
 		private IBCryptEncryption _bCryptEncryption = new BCryptEncryption();
-
-		/*public UserSecurity(IUserDBEntities userDBEntities)
-		{
-			_userDBEntities = userDBEntities;
-		}*/
 
 		public bool Login(string userName, string password)
 		{

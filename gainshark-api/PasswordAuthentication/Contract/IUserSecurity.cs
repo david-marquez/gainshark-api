@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace gainshark_api.Authentication.Contract
+namespace gainshark_api.PasswordAuthentication.Contract
 {
 	public interface IUserSecurity
 	{

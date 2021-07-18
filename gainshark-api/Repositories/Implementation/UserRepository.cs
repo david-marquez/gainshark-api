@@ -187,7 +187,7 @@ namespace gainshark_api.Repositories.Implementation
 								User_FirstName = @User_FirstName,
 								User_LastName = @User_LastName,
 								User_Email = @User_Email,
-								Role_Id = @User_RoleId,
+								User_Role = @User_RoleId,
 								User_Password = @User_Password";
 
 			var engine = _userMySqlProvider.GetEngine();

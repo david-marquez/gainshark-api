@@ -1,5 +1,4 @@
-﻿using gainshark_api.Authentication.Attribute;
-using gainshark_api.DataAccess.Contract;
+﻿using gainshark_api.DataAccess.Contract;
 using gainshark_api.Models;
 using System;
 using System.Collections.Generic;
@@ -11,8 +10,7 @@ using System.Web.Http.Cors;
 
 namespace gainshark_api.Controllers
 {
-	[EnableCors(origins: "*", headers: "*", methods: "*")]
-	[BasicAuthentication]
+	[Authorize(Roles = "Free, Premium, Admin")]
 	[RoutePrefix("api/exercises")]
     public class ExercisesController : ApiController
     {

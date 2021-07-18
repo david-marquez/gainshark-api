@@ -1,5 +1,5 @@
-﻿using gainshark_api.Authentication.Contract;
-using gainshark_api.Authentication.Implementation;
+﻿using gainshark_api.PasswordAuthentication.Contract;
+using gainshark_api.PasswordAuthentication.Implementation;
 using gainshark_api.DataAccess.Contract;
 using gainshark_api.Encryption.Contract;
 using gainshark_api.Encryption.Implementation;

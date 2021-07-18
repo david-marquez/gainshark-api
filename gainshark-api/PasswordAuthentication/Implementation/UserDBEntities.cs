@@ -1,4 +1,4 @@
-﻿using gainshark_api.Authentication.Contract;
+﻿using gainshark_api.PasswordAuthentication.Contract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,31 +7,28 @@ using gainshark_api.Models;
 using gainshark_api.MySqlProvider.Contract;
 using gainshark_api.Mappers.Implementation;
 
-namespace gainshark_api.Authentication.Implementation
+namespace gainshark_api.PasswordAuthentication.Implementation
 {
 	public class UserDBEntities : IUserDBEntities
 	{
-		//private IMySqlProvider<User> _mySqlProvider;
 		private IMySqlProvider<User> _mySqlProvider = new MySqlProvider.Implementation.MySqlProvider<User>();
-
-		/*public UserDBEntities(IMySqlProvider<User> mySqlProvider)
-		{
-			_mySqlProvider = mySqlProvider;
-		}*/
+		
 
 		public IList<User> Users()
 		{
 			string sql = @"	SELECT	user.User_Id,
-									null as User_FirstName,
-									null as User_LastName,
+									user.User_FirstName,
+									user.User_LastName,
 									user.User_UserName,
-									null as User_Email,
+									user.User_Email,
 									user.User_Password,
-									null as Role_Id,
-									null as Role_Name,
-									null as Role_Description
+									role.Role_Id,
+									role.Role_Name,
+									role.Role_Description
 
-							FROM	tbl_users user";
+							FROM	tbl_users user, tbl_roles role
+
+							WHERE	role.Role_Id = user.User_Role";
 
 			var engine = _mySqlProvider.GetEngine();
 

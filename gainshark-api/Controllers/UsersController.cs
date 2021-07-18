@@ -1,5 +1,4 @@
-﻿using gainshark_api.Authentication.Attribute;
-using gainshark_api.DataAccess.Contract;
+﻿using gainshark_api.DataAccess.Contract;
 using gainshark_api.Models;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,6 @@ using System.Web.Http.Cors;
 
 namespace gainshark_api.Controllers
 {
-	[EnableCors(origins: "*", headers: "*", methods: "*")]
 	[RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
@@ -59,7 +57,7 @@ namespace gainshark_api.Controllers
 			}
 		}
 
-		[BasicAuthentication]
+		[Authorize(Roles = "Free, Premium, Admin")]
 		[HttpPost]
 		[Route("delete/{id}")]
 		public HttpResponseMessage DeleteUser(int id)
@@ -76,7 +74,8 @@ namespace gainshark_api.Controllers
 				return response;
 			}
 		}
-		
+
+		[Authorize(Roles = "Free, Premium, Admin")]
 		[HttpGet]
 		[Route("{userName}")]
 		public User GetUser(string userName)
@@ -84,7 +83,7 @@ namespace gainshark_api.Controllers
 			return _dataAccess.GetItems().FirstOrDefault(user => user.UserName == userName);
 		}
 
-		[BasicAuthentication]
+		[Authorize(Roles = "Free, Premium, Admin")]
 		[HttpGet]
 		[Route("")]
 		public IList<User> GetUsers()
@@ -92,14 +91,7 @@ namespace gainshark_api.Controllers
 			return _dataAccess.GetItems();
 		}
 
-		[BasicAuthentication]
-		[HttpGet]
-		[Route("login/{userName}")]
-		public User LoginUser(string userName)
-		{
-			return _dataAccess.GetItems().FirstOrDefault(user => user.UserName == userName);
-		}
-
+		[Authorize(Roles = "Free, Premium, Admin")]
 		[HttpPost]
 		[Route("update")]
 		public HttpResponseMessage UpdateUser([FromBody]User user)

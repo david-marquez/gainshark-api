@@ -1,5 +1,5 @@
-﻿using gainshark_api.Authentication.Contract;
-using gainshark_api.Authentication.Implementation;
+﻿using gainshark_api.PasswordAuthentication.Contract;
+using gainshark_api.PasswordAuthentication.Implementation;
 using gainshark_api.Models;
 using System;
 using System.Collections.Generic;
@@ -13,22 +13,11 @@ using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace gainshark_api.Authentication.Attribute
+namespace gainshark_api.PasswordAuthentication.Attribute
 {
-	public class BasicAuthenticationAttribute : AuthorizationFilterAttribute
+	public class PasswordAuthenticationAttribute : AuthorizationFilterAttribute
 	{
-		//private IUserSecurity _userSecurity;
 		private IUserSecurity _userSecurity = new UserSecurity();
-
-		/*public BasicAuthenticationAttribute(IUserSecurity userSecurity)
-		{
-			_userSecurity = userSecurity;
-		}
-
-		public BasicAuthenticationAttribute()
-		{
-
-		}*/
 
 		public override void OnAuthorization(HttpActionContext actionContext)
 		{
