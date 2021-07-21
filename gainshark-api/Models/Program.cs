@@ -12,5 +12,6 @@ namespace gainshark_api.Models
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public IList<Exercise> Exercises { get; set; }
+		public string DateCreated { get; set; }
 	}
 }

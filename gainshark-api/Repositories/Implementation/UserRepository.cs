@@ -93,7 +93,8 @@ namespace gainshark_api.Repositories.Implementation
 			string programSql = @"	SELECT	program.Program_Id,
 											program.User_Id,
 											program.Program_Name,
-											program.Program_Description
+											program.Program_Description,
+											null as Program_DateCreated
 
 									FROM	tbl_programs program
 
@@ -137,7 +138,8 @@ namespace gainshark_api.Repositories.Implementation
 			string programSql = @"	SELECT	program.Program_Id,
 											program.User_Id,
 											program.Program_Name,
-											program.Program_Description
+											program.Program_Description,
+											null as Program_DateCreated
 
 									FROM	tbl_programs program
 
@@ -220,7 +222,8 @@ namespace gainshark_api.Repositories.Implementation
 				new MySqlParameter("@Program_Id", program.Id),
 				new MySqlParameter("@Program_UserId", program.UserId),
 				new MySqlParameter("@Program_Name", program.Name),
-				new MySqlParameter("@Program_Description", program.Description)
+				new MySqlParameter("@Program_Description", program.Description),
+				new MySqlParameter("@Program_DateCreated", program.DateCreated)
 			};
 
 			return mySqlParameters;

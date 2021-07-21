@@ -30,12 +30,14 @@ namespace gainshark_api.Repositories.Implementation
 			string programSql = @"	INSERT	INTO tbl_programs
 									(	User_Id,
 										Program_Name,
-										Program_Description
+										Program_Description,
+										Program_DateCreated
 									)
 									VALUES(
 										@User_Id,
 										@Program_Name,
-										@Program_Description
+										@Program_Description,
+										@Program_DateCreated
 									);";
 
 			string exerciseSql = @"	/* Delete existing program-exercise relationships */
@@ -44,7 +46,7 @@ namespace gainshark_api.Repositories.Implementation
 									WHERE	exercise_Id = @Exercise_Id
 									AND		Program_Id = (	SELECT	Program_Id
 															FROM	tbl_programs
-															WHERE	Program_Name = @Program_Name);
+															WHERE	Program_DateCreated = @Program_DateCreated);
 
 									INSERT	INTO rltn_program_exercise
 									(	Program_Id,
@@ -52,17 +54,19 @@ namespace gainshark_api.Repositories.Implementation
 										Position,
 										Sets,
 										Reps,
-										Weight
+										Weight,
+										Duration
 									)
 									VALUES(
 										(	SELECT	Program_Id
 											FROM	tbl_programs
-											WHERE	Program_Name = @Program_Name),
+											WHERE	Program_DateCreated = @Program_DateCreated),
 										@Exercise_Id,
 										@Exercise_Position,
 										@Exercise_Sets,
 										@Exercise_Reps,
-										@Exercise_Weight
+										@Exercise_Weight,
+										@Exercise_Duration
 									);";
 
 			var programEngine = _programMySqlProvider.GetEngine();
@@ -74,7 +78,7 @@ namespace gainshark_api.Repositories.Implementation
 			foreach(Exercise exercise in program.Exercises)
 			{
 				List<MySqlParameter> exerciseParameters = (List<MySqlParameter>)ExerciseParameters(exercise);
-				exerciseParameters.Add(new MySqlParameter("@Program_Name", program.Name));
+				exerciseParameters.Add(new MySqlParameter("@Program_DateCreated", program.DateCreated));
 
 				exerciseEngine.AddItem(exerciseSql, exerciseParameters);
 			}
@@ -107,7 +111,8 @@ namespace gainshark_api.Repositories.Implementation
 			string programSql = @"	SELECT	program.Program_Id,
 											program.User_Id,
 											program.Program_Name,
-											program.Program_Description
+											program.Program_Description,
+											program.Program_DateCreated
 
 									FROM	tbl_programs program
 
@@ -177,7 +182,8 @@ namespace gainshark_api.Repositories.Implementation
 			string programSql = @"	SELECT	program.Program_Id,
 											program.User_Id,
 											program.Program_Name,
-											program.Program_Description
+											program.Program_Description,
+											program.Program_DateCreated
 
 									FROM	tbl_programs program;";
 
@@ -261,9 +267,7 @@ namespace gainshark_api.Repositories.Implementation
 
 									DELETE	FROM rltn_program_exercise
 									WHERE	exercise_Id = @Exercise_Id
-									AND		Program_Id = (	SELECT	Program_Id
-															FROM	tbl_programs
-															WHERE	Program_Name = @Program_Name);
+									AND		Program_Id = @Program_Id
 
 									INSERT	INTO rltn_program_exercise
 									(	Program_Id,
@@ -271,7 +275,8 @@ namespace gainshark_api.Repositories.Implementation
 										Position,
 										Sets,
 										Reps,
-										Weight
+										Weight,
+										Duration
 									)
 									VALUES(
 										(	SELECT	Program_Id
@@ -281,7 +286,8 @@ namespace gainshark_api.Repositories.Implementation
 										@Exercise_Position,
 										@Exercise_Sets,
 										@Exercise_Reps,
-										@Exercise_Weight
+										@Exercise_Weight,
+										@Exercise_Duration
 									);";
 
 			var programEngine = _programMySqlProvider.GetEngine();
@@ -293,7 +299,7 @@ namespace gainshark_api.Repositories.Implementation
 			foreach(Exercise exercise in program.Exercises)
 			{
 				List<MySqlParameter> exerciseParameters = (List<MySqlParameter>)ExerciseParameters(exercise);
-				exerciseParameters.Add(new MySqlParameter("@Program_Name", program.Name));
+				exerciseParameters.Add(new MySqlParameter("@Program_Id", program.Id));
 
 				exerciseEngine.UpdateItem(exerciseSql, exerciseParameters);
 			}
@@ -306,7 +312,8 @@ namespace gainshark_api.Repositories.Implementation
 				new MySqlParameter("@Program_Id", program.Id),
 				new MySqlParameter("@User_Id", program.UserId),
 				new MySqlParameter("@Program_Name", program.Name),
-				new MySqlParameter("@Program_Description", program.Description)
+				new MySqlParameter("@Program_Description", program.Description),
+				new MySqlParameter("@Program_DateCreated", program.DateCreated)
 			};
 
 			return mySqlParameters;
@@ -318,8 +325,6 @@ namespace gainshark_api.Repositories.Implementation
 			{
 				new MySqlParameter("@Exercise_Id", exercise.Id),
 				new MySqlParameter("@Exercise_Name", exercise.Name),
-				new MySqlParameter("@Exercise_Description", exercise.Description),
-				new MySqlParameter("@Exercise_Image", exercise.Image),
 				new MySqlParameter("@Exercise_Position", exercise.Position),
 				new MySqlParameter("@Exercise_Sets", exercise.Sets),
 				new MySqlParameter("@Exercise_Reps", exercise.Reps),
