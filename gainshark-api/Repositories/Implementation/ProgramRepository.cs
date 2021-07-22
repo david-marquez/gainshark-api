@@ -38,16 +38,14 @@ namespace gainshark_api.Repositories.Implementation
 										@Program_Name,
 										@Program_Description,
 										@Program_DateCreated
-									);";
+									);
 
-			string exerciseSql = @"	/* Delete existing program-exercise relationships */
+									/* Delete existing program-exercise relationships */
 
 									DELETE	FROM rltn_program_exercise
-									WHERE	exercise_Id = @Exercise_Id
-									AND		Program_Id = (	SELECT	Program_Id
-															FROM	tbl_programs
-															WHERE	Program_DateCreated = @Program_DateCreated);
+									WHERE	Program_Id = @Program_Id;";
 
+			string exerciseSql = @"	/* Insert program-exercise relationships */
 									INSERT	INTO rltn_program_exercise
 									(	Program_Id,
 										Exercise_Id,
@@ -249,25 +247,19 @@ namespace gainshark_api.Repositories.Implementation
 
 		public void UpdateItem(Program program)
 		{
-			string programSql = @"	INSERT	INTO tbl_programs
-									(	User_Id,
-										Program_Name,
-										Program_Description
-									)
-									VALUES(
-										@User_Id,
-										@Program_Name,
-										@Program_Description
-									)
-									ON DUPLICATE KEY UPDATE
-										Program_Name = @Program_Name,
-										Program_Description = @Program_Description;";
+			string programSql = @"	UPDATE	tbl_programs
+									
+									SET	Program_Name = @Program_Name,
+										Program_Description = @Program_Description
+									
+									WHERE	Program_Id = @Program_Id;
 
-			string exerciseSql = @"	/* Delete existing program-exercise relationships */
+									/* Delete existing program-exercise relationships */
 
 									DELETE	FROM rltn_program_exercise
-									WHERE	exercise_Id = @Exercise_Id
-									AND		Program_Id = @Program_Id
+									WHERE	Program_Id = @Program_Id;";
+
+			string exerciseSql = @"	/* Insert program-exercise relationships */
 
 									INSERT	INTO rltn_program_exercise
 									(	Program_Id,
@@ -279,9 +271,7 @@ namespace gainshark_api.Repositories.Implementation
 										Duration
 									)
 									VALUES(
-										(	SELECT	Program_Id
-											FROM	tbl_programs
-											WHERE	Program_Name = @Program_Name),
+										@Program_Id,
 										@Exercise_Id,
 										@Exercise_Position,
 										@Exercise_Sets,
